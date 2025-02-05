@@ -13,6 +13,8 @@ from PyQt5.QtWidgets import QWidget
 from datetime import datetime
 
 class Ui_addW(QWidget):
+    signal = QtCore.pyqtSignal()  # 创建信号对象
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)  # 初始化UI组件
@@ -70,7 +72,5 @@ class Ui_addW(QWidget):
                 Date.write(out)
             else:
                 Date.write(out + '\n')
-            # 文件上下文管理器会自动关闭文件，无需显式调用Date.close()
+        self.signal.emit()  # 触发信号，通知主窗口更新日程列表
         self.close()  # 关闭当前窗口
-        self.SBM = Ui_mainUI()  # 实例化主窗口的UI
-        self.SBM.show()  # 显示主窗口

@@ -54,6 +54,7 @@ class Ui_mainUI(QWidget):
         self.date.setObjectName("date")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.date)
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+
         self.verticalLayout.setContentsMargins(10, 10, 10, 10)
         self.verticalLayout.setObjectName("verticalLayout")
         self.date.setLayout(self.verticalLayout)
@@ -88,9 +89,20 @@ class Ui_mainUI(QWidget):
 
     # 显示添加日程的窗口
     def toAddW(self):
-        self.aw = Ui_addW()
-        self.aw.show()
-        self.close()
+        self.aw = Ui_addW()  # 创建添加日程窗口的实例
+        # 连接自定义信号到refreshCheckboxes方法
+        self.aw.signal.connect(self.refreshCheckboxes)
+        self.aw.show()  # 显示添加日程窗口
+
+    # 刷新日程对应的复选框
+    def refreshCheckboxes(self):
+        # 清空旧复选框并重新加载
+        while self.verticalLayout.count():
+            item = self.verticalLayout.takeAt(0)  # 取出布局中的第一个项目
+            widget = item.widget()  # 获取该项目对应的Widget
+            if widget:
+                widget.deleteLater()  # 删除Widget以释放资源
+        self.productCheckBox()  # 重新生成日程对应的复选框
 
     # 根据日志文件内容创建复选框
     def productCheckBox(self):
