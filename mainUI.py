@@ -9,7 +9,7 @@
 import os
 import sys
 
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QSizePolicy
 
 # 导入自定义的Ui_addW类，用于添加日程的界面
 from addW import *
@@ -34,7 +34,6 @@ class Ui_mainUI(QWidget):
         mainUI.setFocusPolicy(QtCore.Qt.ClickFocus)
         # 设置窗口图标
         self.setWindowIcon(QIcon('icon.ico'))
-
         # 创建日历控件，并设置其位置、大小及属性
         self.calendar = QtWidgets.QCalendarWidget(mainUI)
         self.calendar.setGeometry(QtCore.QRect(0, 0, 251, 197))
@@ -54,12 +53,9 @@ class Ui_mainUI(QWidget):
         self.date.setFlat(True)
         self.date.setCheckable(False)
         self.date.setObjectName("date")
-        self.verticalLayoutWidget = QtWidgets.QWidget(self.date)
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.date)
         self.verticalLayout.setContentsMargins(10, 10, 10, 10)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.date.setLayout(self.verticalLayout)
         # 调用方法生成日程对应的复选框
         self.productCheckBox()
 
@@ -67,7 +63,6 @@ class Ui_mainUI(QWidget):
         self.addToDo = QtWidgets.QPushButton(mainUI)
         self.addToDo.setGeometry(QtCore.QRect(10, 400, 231, 21))
         self.addToDo.setObjectName("addToDo")
-
         # 创建一个QLabel用于显示作者信息，并设置其位置、对齐方式及对象名称
         self.label = QtWidgets.QLabel(mainUI)
         self.label.setGeometry(QtCore.QRect(10, 440, 231, 20))
@@ -114,11 +109,12 @@ class Ui_mainUI(QWidget):
                 # 为每一行（即每一个日程）创建一个复选框，并将其添加到垂直布局中
                 for toDo in f:
                     toDo = toDo.strip()
-                    if toDo and toDo[-1] != 'Y':
+                    if toDo and toDo[0] != 'Y':
                         checkbox = QtWidgets.QCheckBox(f"{toDo}")
                         self.verticalLayout.addWidget(checkbox)
                         # 连接复选框的状态改变事件到checkboxStatusChanged方法
                         checkbox.stateChanged.connect(self.checkboxStatusChanged)
+                        self.verticalLayout.addStretch()
         except FileNotFoundError:
             QtWidgets.QMessageBox.warning(self, "错误", "日志文件不存在！")
 
@@ -128,23 +124,22 @@ class Ui_mainUI(QWidget):
         try:
             # 读取日志文件Date.log的内容
             with open(logPath, 'r', encoding='utf-8') as f:
-                for toDe in f:
-                    toDe = toDe.strip()
-                    if toDe:
-                        toDoes.append(toDe)
+                for toDo in f:
+                    if toDo:
+                        toDo = toDo.strip()
+                    toDoes.append(toDo)
             # 以写入模式打开日志文件Date.log，更新内容
             with open(logPath, 'w', encoding='utf-8') as f:
-                for i, toDo in enumerate(toDoes):
-                    if i != index:
-                        if toDo[-1] == '\n':
-                            f.write(toDo)
-                        else:
-                            f.write(toDo+'\n')
+                i = 0
+                for toDo in toDoes:
+                    if toDo[0] == 'Y':
+                        f.write(f"{toDo}\n")
                     else:
-                        if toDo[-1] == '\n':
-                            f.write(toDo[:-1]+' Y\n')
+                        if i != index:
+                            f.write(f"{toDo}\n")
                         else:
-                            f.write(toDo+' Y\n')
+                            f.write(f"Y {toDo}\n")
+                        i += 1
         except FileNotFoundError:
             QtWidgets.QMessageBox.warning(self, "错误", "日志文件不存在！")
 

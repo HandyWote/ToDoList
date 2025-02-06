@@ -23,6 +23,7 @@ class Ui_addW(QWidget):
     def setupUi(self, addW):
         addW.setObjectName("addW")  # 设置窗口对象名称
         addW.resize(251, 251)  # 设置窗口大小
+        self.winLayout = QtWidgets.QVBoxLayout(addW)
         self.verticalLayoutWidget = QtWidgets.QWidget(addW)
         self.setWindowIcon(QIcon('icon.ico'))  # 设置窗口图标
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 251, 251))  # 设置垂直布局部件的位置和大小
@@ -55,6 +56,7 @@ class Ui_addW(QWidget):
         self.retranslateUi(addW)  # 设置UI元素的文本内容
         self.save.clicked.connect(self.saveBM)  # 连接保存按钮的点击事件到saveBM方法
         QtCore.QMetaObject.connectSlotsByName(addW)  # 根据名称自动连接所有槽函数
+        self.winLayout.addWidget(self.verticalLayoutWidget)  # 将垂直布局部件添加到窗口布局中
 
     def retranslateUi(self, addW):
         _translate = QtCore.QCoreApplication.translate
@@ -63,9 +65,9 @@ class Ui_addW(QWidget):
         self.save.setText(_translate("addW", "保存"))  # 设置保存按钮的文本为“保存”
 
     def saveBM(self):
-        self.toDo_Text = self.textEdit.toPlainText()  # 获取文本编辑框中的日程文本
+        self.toDo_Text = self.textEdit.toPlainText().strip()  # 获取文本编辑框中的日程文本
         self.time_Text = self.dateTimeEdit.text()  # 获取日期时间编辑框中的时间文本
-        out = str(self.time_Text) + '\t' + str(self.toDo_Text)  # 将时间和日程文本拼接成一行，中间用制表符分隔
+        out = str(self.time_Text) + '\t' + str(self.toDo_Text) # 将时间和日程文本拼接成一行，中间用制表符分隔
         try:
             with open(logPath, 'a', encoding='utf-8') as Date:
                 # 检查最后一行是否已经以换行符结尾，如果没有则添加换行符后写入文件
