@@ -33,7 +33,7 @@ class Ui_addW(QWidget):
         self.verticalLayout.setObjectName("verticalLayout")
         self.dateTimeEdit = QtWidgets.QDateTimeEdit(self.verticalLayoutWidget)
         font = QtGui.QFont()
-        font.setPointSize(13)  # 设置字体大小
+        font.setPointSize(15)  # 设置字体大小
         font.setBold(True)  # 设置字体为粗体
         font.setWeight(75)
         self.dateTimeEdit.setFont(font)
@@ -44,12 +44,11 @@ class Ui_addW(QWidget):
         self.dateTimeEdit.setObjectName("dateTimeEdit")
         self.verticalLayout.addWidget(self.dateTimeEdit)  # 将日期时间编辑框添加到垂直布局中
         self.textEdit = QtWidgets.QTextEdit(self.verticalLayoutWidget)
-        font = QtGui.QFont()
-        font.setPointSize(12)  # 设置文本编辑框的字体大小
         self.textEdit.setFont(font)
         self.textEdit.setObjectName("textEdit")
         self.verticalLayout.addWidget(self.textEdit)  # 将文本编辑框添加到垂直布局中
         self.save = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.save.setFont(font)
         self.save.setObjectName("save")  # 设置保存按钮的对象名称
         self.verticalLayout.addWidget(self.save)  # 将保存按钮添加到垂直布局中
 

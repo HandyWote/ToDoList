@@ -45,19 +45,24 @@ class Ui_mainUI(QWidget):
 
         # 创建一个QGroupBox用于显示日程信息，并设置其布局
         self.date = QtWidgets.QGroupBox(mainUI)
-        self.date.setGeometry(QtCore.QRect(10, 200, 231, 171))
+        self.date.setGeometry(QtCore.QRect(10, 200, 231, 191))
         self.date.setFlat(True)
         self.date.setCheckable(False)
         self.date.setObjectName("date")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.date)
-        self.verticalLayout.setContentsMargins(10, 10, 10, 10)
+        self.verticalLayout.setContentsMargins(10, 15, 10, 10)
+        self.verticalLayout.setSpacing(10)
         self.verticalLayout.setObjectName("verticalLayout")
         # 调用方法生成日程对应的复选框
         self.productCheckBox()
 
         # 创建添加日程的按钮，并设置其位置、大小及对象名称
+        font = QtGui.QFont()
+        font.setBold(True)
         self.addToDo = QtWidgets.QPushButton(mainUI)
+        self.addToDo.setFont(font)
         self.addToDo.setGeometry(QtCore.QRect(10, 400, 231, 21))
+        self.addToDo.setFixedSize(231, 30)  # 设置按钮大小为 200x30
         self.addToDo.setObjectName("addToDo")
         # 创建一个QLabel用于显示作者信息，并设置其位置、对齐方式及对象名称
         self.label = QtWidgets.QLabel(mainUI)
