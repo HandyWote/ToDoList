@@ -8,10 +8,11 @@
 
 import sys
 
-from PyQt5.QtWidgets import QApplication, QSizePolicy
+from PyQt5.QtWidgets import QApplication
 
 # 导入自定义的Ui_addW类，用于添加日程的界面
 from addW import *
+
 
 # 定义主界面类Ui_mainUI，继承自QWidget
 class Ui_mainUI(QWidget):
